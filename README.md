@@ -1,10 +1,28 @@
-# language-implementation-patterns
+# Language Implementation Patterns in JavaScript and TypeScript
 
-Language implementation patterns in JavaScript and TypeScript
+Code extracted from the book and rewritten for use in JavaScript and TypeScript
 
-## Book
+- [Book - Language implementation patterns](./book)
+- [Terrence Parr Presentation](https://www.youtube.com/watch?v=q8p1voEiu8Q&feature=youtu.be)
 
-See [./book]
+The goal is to make it much easier to write:
+
+- Languages/DSLs
+- Interpreters
+- ...
+
+Using JS based Parser Generator tools such as:
+
+- [Chevrotain](https://sap.github.io/chevrotain/docs/)
+- [PEG.js](https://pegjs.org)
+- ...
+
+## Source code
+
+- [Javascript](#Javascript)
+- [TypeScript](#TypeScript)
+
+## Javascript
 
 ### Part I
 
@@ -23,3 +41,35 @@ See [./book]
 ### Part III
 
 TODO
+
+## TypeScript
+
+### Part I
+
+- [Part I](./ts-src/part-1/)
+- [01 - Basic Parser patterns](./ts-src/part-1/01)
+- [02 - Recursive descent analysis](./ts-src/part-1/02) LL(1) and LL(k)
+- [03 - Enhanced parsing patterns analysis](./ts-src/part-1/03)
+
+### Part II
+
+- [Part II](./ts-src/part-2/)
+- [04 - Intermediate form trees](./ts-src/part-2/04) IRs, Parse Trees and ASTs
+- [05 - Walking and Rewriting Trees](./ts-src/part-2/05) Tree visitors
+- [06 - Tracking and and Identifying Program symbols](./ts-src/part-2/06) Tree visitors
+- [07 - Managing Symbol Tables for Data aggregates](./ts-src/part-2/07) Symbol table management
+- [08 - Enforcing Static Typing rules](./ts-src/part-2/08) Static typing rules
+
+### Part III
+
+- [Part III](./ts-src/part-3/) TODO
+
+## Tests
+
+Tests can be run using [Jest]() via [ts-jest]()
+
+`$ npm test`
+
+To run individual tests
+
+`$ jest ts-src/part-1/01`
