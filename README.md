@@ -60,6 +60,15 @@ TODO
 - [07 - Managing Symbol Tables for Data aggregates](./ts-src/part-2/07) Symbol table management
 - [08 - Enforcing Static Typing rules](./ts-src/part-2/08) Static typing rules
 
+### scope
+
+Extracted from [@ashmoran/language_implementation_patterns](https://github.com/ashmoran/language_implementation_patterns)
+
+- Monolithic scope
+- Nested scope
+
+Note: Rough draft
+
 ### Part III
 
 - [Part III](./ts-src/part-3/) TODO
