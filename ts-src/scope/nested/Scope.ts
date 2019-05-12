@@ -2,7 +2,7 @@ interface IMap {
   [key: string]: any;
 }
 
-class Scope {
+export class Scope {
   symbols: IMap = {};
   parentScope: any = null;
 
