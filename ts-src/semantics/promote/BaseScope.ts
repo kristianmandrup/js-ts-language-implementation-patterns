@@ -1,6 +1,7 @@
 import { ISymbolMap } from "./ISymbolMap";
 import { CodeSymbol } from "./CodeSymbol";
 import { Scope } from "./Scope";
+
 export abstract class BaseScope implements Scope {
   enclosingScope: Scope | null; // null if global (outermost) scope
   symbols: ISymbolMap = {};
