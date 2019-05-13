@@ -18,7 +18,7 @@ export class Interpreter {
 
     public static sharedReturnValue: ReturnValue = new ReturnValue();
 
-    globalScope: GlobalScope;   // global scope is filled by the parser
+    globalScope?: GlobalScope;   // global scope is filled by the parser
     globals: MemorySpace = new MemorySpace("globals");       // global memory
     currentSpace: MemorySpace = this.globals;
     stack: Stack<FunctionSpace> = new Stack<FunctionSpace>();// call stack

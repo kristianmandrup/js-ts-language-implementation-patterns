@@ -27,7 +27,7 @@ class EarlyExitException {
 
 class RewriteEarlyExitException {}
 
-import { Interpreter } from "../../stack/Interpreter";
+import { Interpreter } from "../Interpreter";
 import { RecognizerSharedState } from "../../asm/RecognizerSharedState";
 import { Scope } from "../Scope";
 import { StructSymbol } from "../StructSymbol";

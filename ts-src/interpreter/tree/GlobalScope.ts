@@ -1,4 +1,4 @@
-import { BaseScope } from "../../semantics/promote/BaseScope";
+import { BaseScope } from "./BaseScope";
 /***
  * Excerpted from "Language Implementation Patterns",
  * published by The Pragmatic Bookshelf.
