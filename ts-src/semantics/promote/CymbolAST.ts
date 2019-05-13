@@ -5,6 +5,8 @@
 import { Scope } from "./Scope";
 import { Type } from "./Type";
 import { CodeSymbol } from "./CodeSymbol";
+import { CommonTree } from "./CommonTree";
+import { Token } from "./Token";
 
 export class CymbolAST extends CommonTree {
   public scope?: Scope; // set by Def.g; ID lives in which scope?

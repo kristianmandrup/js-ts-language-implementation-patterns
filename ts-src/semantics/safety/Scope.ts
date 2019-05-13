@@ -1,5 +1,4 @@
 import { CodeSymbol } from "./CodeSymbol";
-import { Scope } from "./Scope";
 
 export interface Scope {
   getScopeName(): string;
