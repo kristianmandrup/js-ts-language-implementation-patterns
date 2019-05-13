@@ -1,1 +1,5 @@
-export class Token {}
+export class Token {
+  getLine() {
+    return "";
+  }
+}

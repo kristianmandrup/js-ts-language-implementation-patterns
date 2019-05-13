@@ -6,7 +6,7 @@ export abstract class BaseScope implements Scope {
   enclosingScope: Scope | null; // null if global (outermost) scope
   symbols: ISymbolMap = {};
 
-  constructor(parent: Scope) {
+  constructor(parent: Scope | null) {
     this.enclosingScope = parent;
   }
 

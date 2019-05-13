@@ -78,7 +78,7 @@ export class Interpreter {
           interp.codeSize = assembler.getCodeMemorySize();
           interp.constPool = assembler.getConstantPool();
           interp.mainFunction = assembler.getMainFunction();
-          interp.globals = new Object[assembler.getDataSize()];
+          interp.globals = [];
           interp.disasm = new DisAssembler(interp.code,
                                            interp.codeSize,
                                            interp.constPool);

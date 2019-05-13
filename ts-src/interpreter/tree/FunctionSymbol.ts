@@ -8,7 +8,7 @@
  ***/
 
 // TODO: md5 or similar?
-const hashCodeOf = (val: string) => val;
+const hashCodeOf = (val: string): number => 1;
 
 export class FunctionSymbol {
   name: string;

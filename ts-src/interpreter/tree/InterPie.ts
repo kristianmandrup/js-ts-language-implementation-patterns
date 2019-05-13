@@ -1,8 +1,8 @@
-import { Interpreter } from ".";
+import { Interpreter } from "./Interpreter";
 import { FileInputStream } from "../stack/FileInputStream";
 import { PieErrorNode } from "./PieErrorNode";
 import { PieAST } from "./PieAST";
-import { Token } from "../../part-2/07/Token";
+import { Token } from "./Token";
 import { TokenStream } from "./TokenStream";
 import { RecognitionException } from "./RecognitionException";
 /***

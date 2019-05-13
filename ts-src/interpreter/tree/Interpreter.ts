@@ -10,11 +10,10 @@ class PieInterpreterListener implements InterpreterListener {
     public info(msg: string) { console.log(msg); }
     public error(msg: string, {e, t}: IOpts) {
         this.info("line "+t.getLine()+": "+msg);
-        e && e.printStackTrace(console.error)
     }
 };
 
-public class Interpreter {
+export class Interpreter {
     listener: any = new PieInterpreterListener()// default response to messages
 
     public static sharedReturnValue: ReturnValue = new ReturnValue();
