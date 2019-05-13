@@ -3,6 +3,7 @@ import { CymbolListener } from './CymbolListener';
 import { GlobalScope } from './GlobalScope';
 import { TokenStream } from '../../part-1/03/TokenStream';
 import { Type } from './Type';
+import { CymbolAST } from './CymbolAST'
 
 const tUSER = 0; // user-defined type (struct)
 const tBOOLEAN = 1;
@@ -32,6 +33,18 @@ const  _float: BuiltInTypeSymbol =
 new BuiltInTypeSymbol("float", tFLOAT);
 const  _void: BuiltInTypeSymbol =
 new BuiltInTypeSymbol("void", tVOID);
+
+interface IBuiltInSymbolMap {
+  [key: string]: BuiltInTypeSymbol
+}
+
+const builtInSymbolMap: IBuiltInSymbolMap = {
+  boolean: _boolean,
+  char: _char,
+  int: _int,
+  float: _float,
+  void: _void
+}
 
 export class SymbolTable {
   // arithmetic types defined in order from narrowest to widest
@@ -73,12 +86,12 @@ export class SymbolTable {
 
   public static equalityResultType: TypeLike[][] = [
       /*           struct boolean   char      int       float,    void */
-      /*struct*/  {_void, _void,    _void,    _void,    _void,    _void},
-      /*boolean*/ {_void, _boolean, _void,    _void,    _void,    _void},
-      /*char*/    {_void, _void,    _boolean, _boolean, _boolean, _void},
-      /*int*/     {_void, _void,    _boolean, _boolean, _boolean, _void},
-      /*float*/   {_void, _void,    _boolean, _boolean, _boolean, _void},
-      /*void*/    {_void, _void,    _void,    _void,    _void,    _void}
+      /*struct*/  [_void, _void,   _void,  _void,  _void,   _void],
+      /*boolean*/ [_void, _boolean, _void,    _void,    _void,    _void],
+      /*char*/    [_void, _void,    _boolean, _boolean, _boolean, _void],
+      /*int*/     [_void, _void,    _boolean, _boolean, _boolean, _void],
+      /*float*/   [_void, _void,    _boolean, _boolean, _boolean, _void],
+      /*void*/    [_void, _void,    _void,    _void,    _void,    _void]
   ];
 
   /** Indicate whether a type needs a promotion to a wider type.
@@ -88,12 +101,12 @@ export class SymbolTable {
    */
   static promoteFromTo: TypeLike[][] = [
       /*          struct  boolean  char    int     float,   void */
-      /*struct*/  {null,  null,    null,   null,   null,    null},
-      /*boolean*/ {null,  null,    null,   null,   null,    null},
-      /*char*/    {null,  null,    null,   _int,   _float,  null},
-      /*int*/     {null,  null,    null,   null,   _float,  null},
-      /*float*/   {null,  null,    null,   null,    null,   null},
-      /*void*/    {null,  null,    null,   null,    null,   null}
+      /*struct*/  [null,  null,    null,   null,   null,    null],
+      /*boolean*/ [null,  null,    null,   null,   null,    null],
+      /*char*/    [null,  null,    null,   _int,   _float,  null],
+      /*int*/     [null,  null,    null,   null,   _float,  null],
+      /*float*/   [null,  null,    null,   null,    null,   null],
+      /*void*/    [null,  null,    null,   null,    null,   null]
   ];
 
   globals: GlobalScope = new GlobalScope();
@@ -107,46 +120,53 @@ export class SymbolTable {
   }
 
   protected initTypeSystem(): void  {
-      for (let t in this.indexToType) {
-          if ( t!=null ) globals.define((BuiltInTypeSymbol)t);
+    const { globals } = this
+      for (let t in SymbolTable.indexToType) {
+          const sym = builtInSymbolMap[t];
+          if ( t!=null ) globals.define(sym);
       }
   }
 
   getResultType(typeTable: Type[][], a: CymbolAST, b: CymbolAST): Type  {
-      int ta = a.evalType.getTypeIndex(); // type index of left operand
-      int tb = b.evalType.getTypeIndex(); // type index of right operand
-      Type result = typeTable[ta][tb];    // operation result type
+      const ta = a.getTypeIndex(); // type index of left operand
+      const tb = b.getTypeIndex(); // type index of right operand
+
+      const result = typeTable[ta][tb];    // operation result type
       if ( result==_void ) {
-          listener.error(text(a)+", "+
+          this.listener.error(text(a)+", "+
                          text(b)+" have incompatible types in "+
                          text((CymbolAST)a.getParent()));
       }
       else {
-          a.promoteToType = promoteFromTo[ta][tb];
+          a.promoteToType = this.promoteFromTo[ta][tb];
           b.promoteToType = promoteFromTo[tb][ta];
       }
       return result;
   }
 
-  public bop(a: CymbolAST, b: CymbolAST): Type {
-      return getResultType(arithmeticResultType, a, b);
+  bop(a: CymbolAST, b: CymbolAST): Type {
+      return this.getResultType(arithmeticResultType, a, b);
   }
 
-  public relop(a: CymbolAST, b: CymbolAST): Type  {
-      getResultType(relationalResultType, a, b);
+  relop(a: CymbolAST, b: CymbolAST): Type  {
+      this.getResultType(relationalResultType, a, b);
       // even if the operands are incompatible, the type of
       // this operation must be boolean
       return _boolean;
   }
 
-  public eqop(CymbolAST a, CymbolAST b): Type {
-      getResultType(equalityResultType, a, b);
+  eqop(a: CymbolAST, b: CymbolAST): Type {
+      this.getResultType(equalityResultType, a, b);
       return _boolean;
   }
 
-  public uminus(a: CymbolAST): Type {
+  signalError(msg: string) {
+    this.listener.error(msg)
+  }
+
+  uminus(a: CymbolAST): Type {
       if ( !(a.evalType==_int || a.evalType==_float) ) {
-          listener.error(text(a)+" must have int/float type in "+
+          this.signalError(text(a)+" must have int/float type in "+
                          text((CymbolAST)a.getParent()));
           return _void;
       }
@@ -155,7 +175,7 @@ export class SymbolTable {
 
   unot(a: CymbolAST): Type {
       if ( a.evalType!=_boolean ) {
-          listener.error(text(a)+" must have boolean type in "+
+          this.signalError(text(a)+" must have boolean type in "+
                          text((CymbolAST)a.getParent()));
           return _boolean; // even though wrong, assume result boolean
       }
@@ -163,22 +183,23 @@ export class SymbolTable {
   }
 
   arrayIndex(id: CymbolAST, index: CymbolAST): Type {
-      Symbol s = id.scope.resolve(id.getText());
+      const s = id.resolveScope(id.getText());
       id.symbol = s;                               // annotate AST
       if ( s.getClass() != VariableSymbol.class || // ensure it's an array
            s.type.getClass() != ArrayType.class )
       {
-          listener.error(text(id)+" must be an array variable in "+
+          this.signalError(text(id)+" must be an array variable in "+
                          text((CymbolAST)id.getParent()));
           return _void;
       }
-      VariableSymbol vs = (VariableSymbol)s;
-      Type t = ((ArrayType)vs.type).elementType;   // get element type
-      int texpr = index.evalType.getTypeIndex();
+
+      const vs = (VariableSymbol) s;
+      const t = ((ArrayType) vs.type).elementType;   // get element type
+      const texpr = index.evalType.getTypeIndex();
       // promote the index expr if necessary to int
       index.promoteToType = promoteFromTo[texpr][tINT];
-      if ( !canAssignTo(index.evalType, _int, index.promoteToType) ) {
-          listener.error(text(index)+" index must have integer type in "+
+      if ( !this.canAssignTo(index.evalType, _int, index.promoteToType) ) {
+          this.signalError(text(index)+" index must have integer type in "+
                          text((CymbolAST)id.getParent()));
       }        
       return t;
@@ -218,10 +239,10 @@ export class SymbolTable {
       return ms.type;
   }
 
-  member(CymbolAST expr, CymbolAST field): Type {
-      Type type = expr.evalType;
+  member(expr: CymbolAST, field: CymbolAST): Type {
+      const type = expr.evalType;
       if ( type.getClass() != StructSymbol.class ) {
-          listener.error(text(expr)+" must have struct type in "+
+          this.signalError(text(expr)+" must have struct type in "+
                          text((CymbolAST)expr.getParent()));
           return _void;
       }
@@ -233,44 +254,44 @@ export class SymbolTable {
 
   // assignnment stuff (arg assignment in call())
 
-  public void declinit(CymbolAST declID, CymbolAST init) {
-      int te = init.evalType.getTypeIndex(); // promote expr to decl type?
-      int tdecl = declID.symbol.type.getTypeIndex();
+  declinit(declID: CymbolAST, init: CymbolAST): void  {
+      const te = init.evalType.getTypeIndex(); // promote expr to decl type?
+      const tdecl = declID.symbol.type.getTypeIndex();
       declID.evalType = declID.symbol.type;
       init.promoteToType = promoteFromTo[te][tdecl];
-      if ( !canAssignTo(init.evalType, declID.symbol.type,
+      if ( !this.canAssignTo(init.evalType, declID.symbol.type,
                         init.promoteToType) ) {
-          listener.error(text(declID)+", "+
+          this.signalError(text(declID)+", "+
               text(init)+" have incompatible types in "+
               text((CymbolAST)declID.getParent()));
       }
   }
 
-  public void ret(MethodSymbol ms, CymbolAST expr) {
-      Type retType = ms.type; // promote return expr to function decl type?
-      Type exprType = expr.evalType;
-      int texpr = exprType.getTypeIndex();
-      int tret = retType.getTypeIndex(); 
+  public ret(ms: MethodSymbol, expr: CymbolAST): void  {
+      const retType = ms.type; // promote return expr to function decl type?
+      const  exprType = expr.evalType;
+      const texpr = exprType.getTypeIndex();
+      const tret = retType.getTypeIndex(); 
       expr.promoteToType = promoteFromTo[texpr][tret];
-      if ( !canAssignTo(exprType, retType, expr.promoteToType) ) {
-          listener.error(text(expr)+", "+
+      if ( !this.canAssignTo(exprType, retType, expr.promoteToType) ) {
+          this.signalError(text(expr)+", "+
               ms.name+"():<"+ms.type+"> have incompatible types in "+
               text((CymbolAST)expr.getParent()));
       }
   }
 
-  public void assign(CymbolAST lhs, CymbolAST rhs) {
-      int tlhs = lhs.evalType.getTypeIndex(); // promote right to left type?
-      int trhs = rhs.evalType.getTypeIndex();
+  public assign(lhs: CymbolAST, rhs: CymbolAST): void  {
+      const tlhs = lhs.evalType.getTypeIndex(); // promote right to left type?
+      const trhs = rhs.evalType.getTypeIndex();
       rhs.promoteToType = promoteFromTo[trhs][tlhs];
-      if ( !canAssignTo(rhs.evalType, lhs.evalType, rhs.promoteToType) ) {
-          listener.error(text(lhs)+", "+
+      if ( !this.canAssignTo(rhs.evalType, lhs.evalType, rhs.promoteToType) ) {
+          this.signalError(text(lhs)+", "+
                          text(rhs)+" have incompatible types in "+
                          text((CymbolAST)lhs.getParent()));
       }
   }
 
-  public void ifstat(CymbolAST cond) {
+  ifstat(cond: CymbolAST): void  {
       if ( cond.evalType != _boolean ) {
           listener.error("if condition "+text(cond)+
                          " must have boolean type in "+
@@ -278,17 +299,18 @@ export class SymbolTable {
       }
   }
 
-  public boolean canAssignTo(Type valueType,Type destType,Type promotion) {
+  canAssignTo(valueType: Type,destType: Type, promotion: Type): boolean {
       // either types are same or value was successfully promoted
       return valueType==destType || promotion==destType;
   }
 
-  public String text(CymbolAST t) {
-      String ts = "";
+  text(t: CymbolAST): string {
+      let ts = "";
       if ( t.evalType!=null ) ts = ":<"+t.evalType+">";
-      return tokens.toString(t.getTokenStartIndex(),
+      if (!this.tokens) return ""
+      return this.tokens.toString(t.getTokenStartIndex(),
                              t.getTokenStopIndex())+ts;
   }
   
-  public String toString() { return globals.toString(); }
+  toString(): string { return this.globals.toString(); }
 }

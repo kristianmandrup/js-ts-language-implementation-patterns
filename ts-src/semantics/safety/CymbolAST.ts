@@ -23,6 +23,20 @@ export class CymbolAST extends CommonTree {
     super(t);
   }
 
+  resolveScope(name: string) {
+    if (!this.scope) {
+      throw "resolveScope: missing scope";
+    }
+    return this.scope.resolve(name);
+  }
+
+  getTypeIndex(): number {
+    if (!this.evalType) {
+      throw "missing evalType";
+    }
+    return this.evalType.getTypeIndex();
+  }
+
   public toString(): string {
     let s: string = super.toString();
     const { evalType, promoteToType } = this;
