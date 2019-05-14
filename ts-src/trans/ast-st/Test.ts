@@ -6,9 +6,13 @@
  * We make no guarantees that this code is fit for any purpose.
  * Visit http://www.pragmaticprogrammer.com/titles/tpdsl for more book information.
  ***/
-class TokenRewriteStream {
-  constructor(lexer: CymbolLexer) {}
-}
+
+import {
+  readFile,
+  StringTemplateGroup,
+  CommonTreeNodeStream,
+  TokenRewriteStream
+} from "../_base/util";
 
 class CompilationUnit {
   getTree() {}
@@ -20,30 +24,6 @@ class CymbolParser {
 
   compilationUnit() {
     return new CompilationUnit();
-  }
-}
-
-class CommonTreeNodeStream {
-  constructor(tree: any) {}
-
-  setTokenStream(tokens: any) {}
-}
-
-class ANTLRFileStream {
-  constructor(input: string) {}
-}
-class ANTLRInputStream {
-  constructor(input: string) {}
-}
-
-import * as fs from "fs";
-const readFile = (fileName: string) => fs.readFileSync(fileName, "utf8");
-
-class StringTemplateGroup {
-  constructor(input: string) {}
-
-  getInstanceOf(id: string): any {
-    return this;
   }
 }
 
@@ -71,7 +51,7 @@ export class Test {
 
     // LOAD TEMPLATES (via classpath)
     const fr = readFile("Cymbol.stg");
-    const templates = new StringTemplateGroup(fr);
+    const templates = new StringTemplateGroup({ template: fr });
 
     //  CREATE TREE NODE STREAM FOR TREE PARSERS
     const nodes = new CommonTreeNodeStream(tree);

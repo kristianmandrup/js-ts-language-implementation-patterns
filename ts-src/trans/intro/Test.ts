@@ -9,16 +9,15 @@
 
 class AngleBracketTemplateLexer {}
 
-class StringTemplate {
-  constructor(template: string, lexer: any) {}
-
-  setAttribute(id: string, value: any) {}
-}
+import { StringTemplate } from "../_base/util";
 
 export class Test {
   static main(args: string[]) {
     const assign = "<left> = <right>;";
-    const st = new StringTemplate(assign, AngleBracketTemplateLexer);
+    const st = new StringTemplate({
+      template: assign,
+      lexer: AngleBracketTemplateLexer
+    });
     st.setAttribute("left", "x"); // attribute left is a string
     st.setAttribute("right", 99); // attribute right is an integer
     const output = st.toString(); // render template to text

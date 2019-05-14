@@ -8,9 +8,8 @@
  ***/
 /** The makefile->makefile.java translator main program */
 
-import * as fs from "fs";
 import { JavaGenerator } from "./JavaGenerator";
-const readFile = (fileName: string) => fs.readFileSync(fileName, "utf8");
+import { readFile, CommonTokenStream } from "../_base/util";
 
 class MakeLexer {
   constructor(input: string) {}
@@ -20,10 +19,6 @@ class MakeParser {
   constructor(tokens: CommonTokenStream, gen: JavaGenerator) {}
 
   rules() {}
-}
-
-class CommonTokenStream {
-  constructor(lexer: MakeLexer) {}
 }
 
 export class Maker {

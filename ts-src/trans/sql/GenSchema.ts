@@ -1,4 +1,5 @@
 import { Person } from "./Person";
+import { readFile, StringTemplateGroup } from "../_base/util";
 /***
  * Excerpted from "Language Implementation Patterns",
  * published by The Pragmatic Bookshelf.
@@ -8,20 +9,7 @@ import { Person } from "./Person";
  * Visit http://www.pragmaticprogrammer.com/titles/tpdsl for more book information.
  ***/
 
-class StringTemplateGroup {
-  constructor(input: string) {}
-
-  getInstanceOf(id: string): any {
-    return this;
-  }
-}
-
-class StringTemplate {}
-
 class Field {}
-
-import * as fs from "fs";
-const readFile = (fileName: string) => fs.readFileSync(fileName, "utf8");
 
 export class GenSchema {
   templates: StringTemplateGroup;

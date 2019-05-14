@@ -1,4 +1,5 @@
 import { Target } from "./Target";
+import { File } from "../_base/util";
 /***
  * Excerpted from "Language Implementation Patterns",
  * published by The Pragmatic Bookshelf.
@@ -10,18 +11,6 @@ import { Target } from "./Target";
 
 interface ITargetMap {
   [key: string]: Target;
-}
-
-class File {
-  constructor(fileName: string) {}
-
-  exists() {
-    return true;
-  }
-
-  lastModified() {
-    return new Date();
-  }
 }
 
 export class MakeSupport {

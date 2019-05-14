@@ -7,13 +7,7 @@
  * Visit http://www.pragmaticprogrammer.com/titles/tpdsl for more book information.
  ***/
 import { Wiki, Token } from "./Wiki";
-import * as fs from "fs";
-
-class ANTLRReaderStream {
-  constructor(fr: any) {}
-}
-
-const readFile = (fileName: string) => fs.readFileSync(fileName, "utf8");
+import { readFile } from "../_base/util";
 
 export class WikiToHTML {
   public static main(...args: string[]): void {

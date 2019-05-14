@@ -1,4 +1,6 @@
-class Lexer {
+interface ILexer {}
+
+class Lexer implements ILexer {
   constructor(input: string, opts = {}) {}
 }
 

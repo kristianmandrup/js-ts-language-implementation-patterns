@@ -8,8 +8,7 @@ import { Person } from "./Person";
  * Visit http://www.pragmaticprogrammer.com/titles/tpdsl for more book information.
  ***/
 import { TypeRenderer } from "./TypeRenderer";
-
-import {StringTemplate} from "stringtemplate-js";
+import { StringTemplate } from "../_base/util";
 
 import * as fs from "fs";
 const readFile = (fileName: string) => fs.readFileSync(fileName, "utf8");

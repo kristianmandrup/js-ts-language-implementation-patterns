@@ -1,4 +1,3 @@
-import { Tree } from "./Tree";
 /***
  * Excerpted from "Language Implementation Patterns",
  * published by The Pragmatic Bookshelf.
@@ -8,33 +7,18 @@ import { Tree } from "./Tree";
  * Visit http://www.pragmaticprogrammer.com/titles/tpdsl for more book information.
  ***/
 
-class StringTemplateGroup {
-  constructor(input: string) {}
-
-  getInstanceOf(id: string): any {
-    return this;
-  }
-}
-
-class StringTemplate {
-  getAttribute(id: string): any {}
-  setAttribute(id: string, value: any): void {}
-}
-
-class Field {}
-
-import * as fs from "fs";
-const readFile = (fileName: string) => fs.readFileSync(fileName, "utf8");
+import { Tree } from "./Tree";
+import { readFile, StringTemplateGroup, StringTemplate } from "../_base/util";
 
 export class ASTViz {
-  templates: StringTemplateGroup = new StringTemplateGroup("");
+  templates: StringTemplateGroup = new StringTemplateGroup();
   counter: number = 1; // used to make unique names
   root: Tree;
 
   constructor(root: Tree) {
     this.root = root;
     const fr = readFile("DOT.stg");
-    this.templates = new StringTemplateGroup(fr);
+    this.templates = new StringTemplateGroup({ template: fr });
   }
 
   public toString(): string {

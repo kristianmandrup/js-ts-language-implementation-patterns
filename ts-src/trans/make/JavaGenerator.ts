@@ -1,4 +1,6 @@
 import { MakeGenerator } from "./MakeGenerator";
+import { OutputWriter } from "../_base/util";
+
 /***
  * Excerpted from "Language Implementation Patterns",
  * published by The Pragmatic Bookshelf.
@@ -7,10 +9,6 @@ import { MakeGenerator } from "./MakeGenerator";
  * We make no guarantees that this code is fit for any purpose.
  * Visit http://www.pragmaticprogrammer.com/titles/tpdsl for more book information.
  ***/
-
-class OutputWriter {
-  constructor(file: string) {}
-}
 
 export class JavaGenerator implements MakeGenerator {
   out: any;

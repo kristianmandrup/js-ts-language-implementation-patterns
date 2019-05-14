@@ -14,7 +14,7 @@ import { PersonSerializer } from "./PersonSerializer";
 import { Person } from "./Person";
 
 export class Test {
-  public static main(...args: string[]): void {
+  run(...args: string[]): void {
     if (args.length < 4) {
       console.error("Test server db user passwd");
       return;
@@ -26,7 +26,7 @@ export class Test {
     //System.out.print("Testing "+server+"/"+db+":"+username+"/"+password+": ");
     try {
       const urlString = "jdbc:mysql://" + server + "/" + db;
-      const con = Test.getConnection(urlString, username, password);
+      const con = this.getConnection(urlString, username, password);
       // CREATE PERSON AND SERIALIZE
       PersonSerializer.init(con);
       const date = new Date(2000, 10, 5);
@@ -49,7 +49,7 @@ export class Test {
     }
   }
 
-  static getConnection(
+  getConnection(
     urlString: string,
     username: string,
     password: string
