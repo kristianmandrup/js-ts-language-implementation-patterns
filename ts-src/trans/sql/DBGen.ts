@@ -9,7 +9,7 @@ import { Person } from "./Person";
  ***/
 import { TypeRenderer } from "./TypeRenderer";
 
-import StringTemplate from "stringtemplate-js";
+import {StringTemplate} from "stringtemplate-js";
 
 import * as fs from "fs";
 const readFile = (fileName: string) => fs.readFileSync(fileName, "utf8");

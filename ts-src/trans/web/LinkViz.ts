@@ -7,7 +7,10 @@
  * Visit http://www.pragmaticprogrammer.com/titles/tpdsl for more book information.
  ***/
 
-import StringTemplate from "stringtemplate-js";
+import { StringTemplateGroup } from "stringtemplate-js";
+
+import * as fs from "fs";
+const readFile = (fileName: string) => fs.readFileSync(fileName, "utf8");
 
 class Link {
   from: string;
@@ -23,9 +26,8 @@ export class LinkViz {
   links: Link[] = [];
 
   constructor() {
-    const fr = new FileReader("DOT.stg");
+    const fr = readFile("DOT.stg");
     this.templates = new StringTemplateGroup(fr);
-    fr.close();
   }
 
   public addLink(from: string, to: string): void {

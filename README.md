@@ -71,19 +71,27 @@ Note: Rough draft
 
 ### interpreter
 
-- Converted from Java files (book source)
+See [Interpreter docs](./ts-src/interpreter/_Interpreter.md)
+
+- TypeScript code converted from Java source code (referenced in book)
 
 ### semantics
 
-- Converted from Java files (book source)
+See [Semantics docs](./ts-src/semantics/_Semantics.md)
 
-### trans
+- TypeScript code converted from Java source code (referenced in book)
 
-- Converted from Java files (book source)
+### transformations
+
+See [Transformations docs](./ts-src/trans/_Transformations.md)
+
+- TypeScript code converted from Java source code (referenced in book)
 
 ### visitor
 
-- Converted from Java files (book source)
+See [Visitor docs](./ts-src/visitor/_Visitor.md)
+
+- TypeScript code converted from Java source code (referenced in book)
 
 ### Part III
 

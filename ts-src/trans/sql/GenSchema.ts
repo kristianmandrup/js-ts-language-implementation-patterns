@@ -21,7 +21,6 @@ class StringTemplate {}
 class Field {}
 
 import * as fs from "fs";
-
 const readFile = (fileName: string) => fs.readFileSync(fileName, "utf8");
 
 export class GenSchema {

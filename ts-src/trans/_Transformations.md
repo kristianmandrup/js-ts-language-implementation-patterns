@@ -1,5 +1,14 @@
 # Transformations
 
+## Types of transformations
+
+- Intro
+- Make file (simple)
+- AST (used by GraphViz DOT file transformation)
+- SQL (Generate SQL)
+- Web (Generate DOT files)
+- Wiki (Generate HTML from Wiki syntax)
+
 ## Libs
 
 ### StringTemplate and StringTemplateGroup

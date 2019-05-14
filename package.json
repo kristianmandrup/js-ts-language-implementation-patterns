@@ -26,6 +26,6 @@
   },
   "dependencies": {
     "linebyline": "^1.3.0",
-    "stringtemplate-js": "kristianmandrup/StringTemplate-js"
+    "stringtemplate-js": "github:kristianmandrup/StringTemplate-js"
   }
 }
