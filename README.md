@@ -2,7 +2,6 @@
 
 Code extracted from the book and rewritten for use in JavaScript and TypeScript
 
-- [Book - Language implementation patterns](./book)
 - [Terrence Parr Presentation](https://www.youtube.com/watch?v=q8p1voEiu8Q&feature=youtu.be)
 
 The goal is to make it much easier to write:
@@ -69,6 +68,11 @@ Extracted from [@ashmoran/language_implementation_patterns](https://github.com/a
 
 Note: Rough draft
 
+## Working with the AST
+
+The code for the following AST "phases" are still a WIP and a little rough on the edges.
+Can be used as a good starting point (base) though. Please get the book and read the relevant chapter(s) to understand the reasoning behind it and how to fit it into your own scenario.
+
 ### interpreter
 
 See [Interpreter docs](./ts-src/interpreter/_Interpreter.md)
@@ -86,6 +90,14 @@ See [Semantics docs](./ts-src/semantics/_Semantics.md)
 See [Transformations docs](./ts-src/trans/_Transformations.md)
 
 - TypeScript code converted from Java source code (referenced in book)
+
+The transformations use [StringTemplate for TypeScript](https://github.com/kristianmandrup/StringTemplate-js)
+
+[Announcement StringTemplate v4](http://hardlikesoftware.com/weblog/2015/04/12/stringtemplate-for-javascript/)
+
+`StringTemplate` is an excellent fit for generating output from an AST (it has been designed specifically for that purpose as part of ANTLR).
+
+For simple scenarios, any template function will do.
 
 ### visitor
 
