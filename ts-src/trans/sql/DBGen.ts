@@ -9,6 +9,8 @@ import { Person } from "./Person";
  ***/
 import { TypeRenderer } from "./TypeRenderer";
 
+import StringTemplate from "stringtemplate-js";
+
 import * as fs from "fs";
 const readFile = (fileName: string) => fs.readFileSync(fileName, "utf8");
 
@@ -22,9 +24,9 @@ class StringTemplateGroup {
   registerRenderer(target: any, renderer: TypeRenderer) {}
 }
 
-class StringTemplate {
-  setAttribute(id: string, value: any) {}
-}
+// class StringTemplate {
+//   setAttribute(id: string, value: any) {}
+// }
 
 class Field {}
 

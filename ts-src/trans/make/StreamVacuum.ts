@@ -7,7 +7,7 @@
  * Visit http://www.pragmaticprogrammer.com/titles/tpdsl for more book information.
  ***/
 
-const readline = require("linebyline");
+import readline from "linebyline";
 
 export class StreamVacuum {
   buffer: string = "";

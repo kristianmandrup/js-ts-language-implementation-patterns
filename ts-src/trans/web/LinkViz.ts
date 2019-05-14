@@ -7,6 +7,8 @@
  * Visit http://www.pragmaticprogrammer.com/titles/tpdsl for more book information.
  ***/
 
+import StringTemplate from "stringtemplate-js";
+
 class Link {
   from: string;
   to: string;
