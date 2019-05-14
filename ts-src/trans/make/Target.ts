@@ -1,3 +1,4 @@
+import { StreamVacuum } from "./StreamVacuum";
 /***
  * Excerpted from "Language Implementation Patterns",
  * published by The Pragmatic Bookshelf.
@@ -6,6 +7,18 @@
  * We make no guarantees that this code is fit for any purpose.
  * Visit http://www.pragmaticprogrammer.com/titles/tpdsl for more book information.
  ***/
+
+class Executer {
+  exec(action: string): any {
+    return {};
+  }
+}
+
+class Runtime {
+  static getRuntime() {
+    return new Executer();
+  }
+}
 
 export class Target {
   name: string;
@@ -25,7 +38,7 @@ export class Target {
   }
 
   exec(): number {
-    const { actions } = this;
+    const { actions, name } = this;
     if (actions == null) return 0;
     for (let action of actions) {
       console.log("build(" + name + "): " + action + "\n");
@@ -36,14 +49,15 @@ export class Target {
       stdout.start();
       stderr.start();
       p.waitFor();
-      stdout.join();
-      stderr.join();
-      if (stdout.tostring().length() > 0) {
+
+      if (stdout.toString().length > 0) {
         console.log(stdout);
       }
-      if (stderr.tostring().length() > 0) {
+
+      if (stderr.toString().length > 0) {
         console.error(stderr);
       }
+
       if (p.exitValue() != 0) {
         //System.err.println(action+" exited with "+p.exitValue());
         return p.exitValue();

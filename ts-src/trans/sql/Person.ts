@@ -8,14 +8,14 @@
  ***/
 
 export class Person {
-  public name: string; // single-valued fields:
-  public SSN: string;
-  public birthDay: Date;
-  public age: number;
+  public name?: string; // single-valued fields:
+  public SSN?: string;
+  public birthDay?: Date;
+  public age?: number;
   public roles: string[] = []; // multi-valued fields:
   public vacation: Date[] = [];
 
-  constructor(name: string, SSN: string, birthDay: Date, age: number) {
+  constructor(name?: string, SSN?: string, birthDay?: Date, age?: number) {
     this.name = name;
     this.SSN = SSN;
     this.birthDay = birthDay;

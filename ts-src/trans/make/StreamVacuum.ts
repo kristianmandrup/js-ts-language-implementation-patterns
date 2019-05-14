@@ -1,46 +1,36 @@
 /***
  * Excerpted from "Language Implementation Patterns",
  * published by The Pragmatic Bookshelf.
- * Copyrights apply to this code. It may not be used to create training material, 
+ * Copyrights apply to this code. It may not be used to create training material,
  * courses, books, articles, and the like. Contact us if you are in doubt.
- * We make no guarantees that this code is fit for any purpose. 
+ * We make no guarantees that this code is fit for any purpose.
  * Visit http://www.pragmaticprogrammer.com/titles/tpdsl for more book information.
-***/
+ ***/
+
+const readline = require("linebyline");
 
 export class StreamVacuum {
-	buf: string = "";
-	in: BufferedReader;
-	sucker: Thread;
+  buffer: string = "";
+  lineReader: any;
 
-	constructor(in: InputStream) {
-		this.in = new BufferedReader( new InputStreamReader(in) );
-	}
+  constructor(filename: string) {
+    const rl = readline(filename);
+    this.lineReader = rl;
+  }
 
-	start(): void {
-		sucker = new Thread(this);
-		sucker.start();
-	}
+  start(): void {}
 
-	run(): void {
-		try {
-			const line = in.readLine();
-			while (line!=null) {
-				buf.append(line);
-				buf.append('\n');
-				line = in.readLine();
-			}
-		}
-		catch (IOException ioe) {
-			System.err.println("can't read output from process");
-		}
-	}
+  run(): void {
+    const { buffer, lineReader } = this;
+    lineReader.on("line", (line: string) => {
+      buffer.concat(line + "=n");
+    });
+    lineReader.on("error", (e: any) => {
+      throw e;
+    });
+  }
 
-	/** wait for the thread to finish */
-	join(): void{
-		sucker.join();
-	}
-	
-	toString(): string {
-		return buf.toString();
-	}
+  toString(): string {
+    return this.buffer;
+  }
 }

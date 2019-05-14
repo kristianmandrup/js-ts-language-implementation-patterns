@@ -1,3 +1,4 @@
+import { Person } from "./Person";
 /***
  * Excerpted from "Language Implementation Patterns",
  * published by The Pragmatic Bookshelf.
@@ -7,26 +8,41 @@
  * Visit http://www.pragmaticprogrammer.com/titles/tpdsl for more book information.
  ***/
 
+class StringTemplateGroup {
+  constructor(input: string) {}
+
+  getInstanceOf(id: string): any {
+    return this;
+  }
+}
+
+class StringTemplate {}
+
+class Field {}
+
+import * as fs from "fs";
+
+const readFile = (fileName: string) => fs.readFileSync(fileName, "utf8");
+
 export class GenSchema {
   templates: StringTemplateGroup;
 
   public static main(...args: string[]): void {
     const gen = new GenSchema();
-    const schemaST = gen.genSchema(Person.class);
+    const schemaST = gen.genSchema(Person);
     console.log(schemaST.toString());
   }
 
   constructor() {
-    const fr = new FileReader("SQL.stg");
+    const fr = readFile("SQL.stg");
     this.templates = new StringTemplateGroup(fr);
-    fr.close();
   }
 
   public genSchema(c: any): StringTemplate {
-    const fields = [];
-    const arrayFields = [];
+    const fields: Field[] = [];
+    const arrayFields: Field[] = [];
     this.filterFields(c, fields, arrayFields);
-    const classST = templates.getInstanceOf("objectTables");
+    const classST = this.templates.getInstanceOf("objectTables");
     classST.setAttribute("class", c);
     classST.setAttribute("fields", fields);
     classST.setAttribute("arrayFields", arrayFields);

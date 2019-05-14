@@ -1,4 +1,5 @@
 import { Tree } from "./Tree";
+import { ASTViz } from "./ASTViz";
 /***
  * Excerpted from "Language Implementation Patterns",
  * published by The Pragmatic Bookshelf.

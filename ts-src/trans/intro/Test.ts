@@ -6,6 +6,15 @@
  * We make no guarantees that this code is fit for any purpose.
  * Visit http://www.pragmaticprogrammer.com/titles/tpdsl for more book information.
  ***/
+
+class AngleBracketTemplateLexer {}
+
+class StringTemplate {
+  constructor(template: string, lexer: any) {}
+
+  setAttribute(id: string, value: any) {}
+}
+
 export class Test {
   static main(args: string[]) {
     const assign = "<left> = <right>;";

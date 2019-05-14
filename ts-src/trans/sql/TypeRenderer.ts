@@ -13,6 +13,8 @@
  *    <type; format="capitalized"> yields "Int"
  */
 
+class AttributeRenderer {}
+
 export class TypeRenderer implements AttributeRenderer {
   toString(o: any, formatName?: string): string {
     if (formatName) {

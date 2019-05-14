@@ -69,6 +69,22 @@ Extracted from [@ashmoran/language_implementation_patterns](https://github.com/a
 
 Note: Rough draft
 
+### interpreter
+
+- Converted from Java files (book source)
+
+### semantics
+
+- Converted from Java files (book source)
+
+### trans
+
+- Converted from Java files (book source)
+
+### visitor
+
+- Converted from Java files (book source)
+
 ### Part III
 
 - [Part III](./ts-src/part-3/) TODO

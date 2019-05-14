@@ -6,26 +6,29 @@
  * We make no guarantees that this code is fit for any purpose.
  * Visit http://www.pragmaticprogrammer.com/titles/tpdsl for more book information.
  ***/
-import { Wiki } from "./Wiki";
+import { Wiki, Token } from "./Wiki";
+import * as fs from "fs";
 
 class ANTLRReaderStream {
   constructor(fr: any) {}
 }
 
+const readFile = (fileName: string) => fs.readFileSync(fileName, "utf8");
+
 export class WikiToHTML {
   public static main(...args: string[]): void {
     const wikiFilename = args[0];
-    const fr = new FileReader(wikiFilename);
+    const fr = readFile(wikiFilename);
     const out = console.log;
     this.header(out);
-    const lex = new Wiki(new ANTLRReaderStream(fr), out);
+    const lex = new Wiki(fr, { out });
     try {
       let t = lex.nextToken();
       while (t.getType() != Token.EOF) t = lex.nextToken();
-    } finally {
-      fr.close();
+    } catch (e) {
+      throw e;
     }
-    this.trailer(out);
+    WikiToHTML.trailer(out);
   }
 
   static header(out: any): void {
