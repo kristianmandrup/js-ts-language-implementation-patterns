@@ -8,26 +8,12 @@ import { Person } from "./Person";
  * Visit http://www.pragmaticprogrammer.com/titles/tpdsl for more book information.
  ***/
 import { TypeRenderer } from "./TypeRenderer";
-import { StringTemplate } from "../_base/util";
-
-import * as fs from "fs";
-const readFile = (fileName: string) => fs.readFileSync(fileName, "utf8");
-
-class StringTemplateGroup {
-  constructor(input: string) {}
-
-  getInstanceOf(id: string): any {
-    return this;
-  }
-
-  registerRenderer(target: any, renderer: TypeRenderer) {}
-}
-
-// class StringTemplate {
-//   setAttribute(id: string, value: any) {}
-// }
-
-class Field {}
+import {
+  StringTemplate,
+  StringTemplateGroup,
+  Field,
+  readFile
+} from "../_base/util";
 
 export class DBGen {
   static main(...args: string[]): void {
@@ -43,8 +29,8 @@ export class DBGen {
       return;
     }
     // LOAD TEMPLATES
-    const fr = readFile(groupFile);
-    const templates = new StringTemplateGroup(fr);
+    const template = readFile(groupFile);
+    const templates = new StringTemplateGroup({ template });
 
     templates.registerRenderer(DBGen, new TypeRenderer());
     // GEN OUTPUT

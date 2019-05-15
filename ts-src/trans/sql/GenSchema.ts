@@ -1,5 +1,5 @@
 import { Person } from "./Person";
-import { readFile, StringTemplateGroup } from "../_base/util";
+import { readFile, StringTemplateGroup, StringTemplate } from "../_base/util";
 /***
  * Excerpted from "Language Implementation Patterns",
  * published by The Pragmatic Bookshelf.
@@ -21,8 +21,8 @@ export class GenSchema {
   }
 
   constructor() {
-    const fr = readFile("SQL.stg");
-    this.templates = new StringTemplateGroup(fr);
+    const template = readFile("SQL.stg");
+    this.templates = new StringTemplateGroup({ template });
   }
 
   public genSchema(c: any): StringTemplate {

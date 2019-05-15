@@ -23,8 +23,8 @@ export class LinkViz {
   links: Link[] = [];
 
   constructor() {
-    const fr = readFile("DOT.stg");
-    this.templates = new StringTemplateGroup(fr);
+    const template = readFile("DOT.stg");
+    this.templates = new StringTemplateGroup({ template });
   }
 
   public addLink(from: string, to: string): void {
