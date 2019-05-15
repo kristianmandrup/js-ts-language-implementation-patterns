@@ -1,7 +1,7 @@
 import { StackFrame } from './StackFrame'
-import { FileInputStream } from './FileInputStream';
+// import { FileInputStream } from './FileInputStream';
 import { DisAssembler } from '../asm/DisAssembler'
-import { BytecodeAssembler } from '../asm/BytecodeAssembler'
+// import { BytecodeAssembler } from '../asm/BytecodeAssembler'
 import { BytecodeDefinition } from '../asm/BytecodeDefinition'
 import { AssemblerLexer } from '../asm/AssemblerLexer'
 import { readFile } from '../../trans/_base/util';
@@ -17,7 +17,7 @@ export class Interpreter {
   public static DEFAULT_OPERAND_STACK_SIZE = DEFAULT_OPERAND_STACK_SIZE;
   public static DEFAULT_CALL_STACK_SIZE = DEFAULT_CALL_STACK_SIZE;
 
-  disasm: DisAssembler;
+  disasm?: DisAssembler;
 
   ip: number = 0;             // instruction pointer register
   code: number[] = [];        // byte-addressable code memory.

@@ -1,77 +1,77 @@
-public class DisAssembler {
-  byte[] code;
-  int codeSize;
-  protected Object[] constPool;
-  BytecodeDefinition def;
+import { BytecodeDefinition } from "./BytecodeDefinition";
+import { FunctionSymbol } from "./FunctionSymbol";
 
-  public DisAssembler(byte[] code,
-                      int codeSize,
-                      Object[] constPool)
-  {
-      this.code = code;
-      this.codeSize = codeSize;
-      this.constPool = constPool;
+export class DisAssembler {
+  code: number[];
+  codeSize: number;
+  constPool: any[];
+  def?: BytecodeDefinition;
+
+  constructor(code: number[], codeSize: number, constPool: any[]) {
+    this.code = code;
+    this.codeSize = codeSize;
+    this.constPool = constPool;
   }
 
-  public void disassemble() {
-      System.out.println("Disassembly:");
-      int i=0;
-      while (i<codeSize) {
-          i = disassembleInstruction(i);
-          System.out.println();
-      }
-      System.out.println();
+  disassemble() {
+    console.log("Disassembly:\n");
+    let i = 0;
+    while (i < this.codeSize) {
+      i = this.disassembleInstruction(i);
+      console.log("\n");
+    }
+    console.log("\n");
   }
 
-  public int disassembleInstruction(int ip)
-  {
-      int opcode = code[ip];
-      BytecodeDefinition.Instruction I =
-          BytecodeDefinition.instructions[opcode];
-      String instrName = I.name;
-      System.out.printf("%04d:\t%-11s", ip, instrName);
-      ip++;
-      if ( I.n==0 ) {
-          System.out.print("  ");
-          return ip;
-      }
-      List<String> operands = new ArrayList<String>();
-      for (int i=0; i<I.n; i++) {
-          int opnd = BytecodeAssembler.getInt(code, ip);
-          ip += 4;
-          switch ( I.type[i] ) {
-              case BytecodeDefinition.REG :
-                  operands.add("r"+opnd);
-                  break;
-              case BytecodeDefinition.FUNC :
-              case BytecodeDefinition.POOL :
-                  operands.add(showConstPoolOperand(opnd));
-                  break;
-              case BytecodeDefinition.INT :
-                  operands.add(String.valueOf(opnd));
-                  break;
-          }
-      }
-      for (int i = 0; i < operands.size(); i++) {
-          String s = (String) operands.get(i);
-          if ( i>0 ) System.out.print(", ");
-          System.out.print(s);
-      }
+  disassembleInstruction(ip: number): number {
+    const opcode = this.code[ip];
+    const I = BytecodeDefinition.instructions[opcode];
+    const instrName = I.name;
+    // TODO: use fmt
+    console.log("%04d:\t%-11s", ip, instrName);
+    ip++;
+    if (I.n == 0) {
+      console.log("  ");
       return ip;
+    }
+    const operands: string[] = [];
+    for (let i = 0; i < I.n; i++) {
+      const opnd = 1; // BytecodeAssembler.getInt(code, ip);
+      ip += 4;
+      switch (I.type[i]) {
+        case BytecodeDefinition.REG:
+          operands.push("r" + opnd);
+          break;
+        case BytecodeDefinition.FUNC:
+        case BytecodeDefinition.POOL:
+          operands.push(this.showConstPoolOperand(opnd));
+          break;
+        case BytecodeDefinition.INT:
+          operands.push(String(opnd));
+          break;
+      }
+    }
+    for (let i = 0; i < operands.length; i++) {
+      const s = operands[i];
+      if (i > 0) console.log(", ");
+      console.log(s);
+    }
+    return ip;
   }
 
-  private String showConstPoolOperand(int poolIndex) {
-      StringBuilder buf = new StringBuilder();
-      buf.append("#");
-      buf.append(poolIndex);
-      String s = constPool[poolIndex].toString();
-      if ( constPool[poolIndex] instanceof String ) s='"'+s+'"';
-      else if ( constPool[poolIndex] instanceof FunctionSymbol ) {
-          FunctionSymbol fs = (FunctionSymbol)constPool[poolIndex];
-          s= fs.name+"()@"+fs.address;
-      }
-      buf.append(":");
-      buf.append(s);
-      return buf.toString();
+  showConstPoolOperand(poolIndex: number) {
+    const buf = "";
+    buf.concat("#");
+    buf.concat(String(poolIndex));
+    const { constPool } = this;
+    let s = constPool[poolIndex].toString();
+    if (constPool[poolIndex] instanceof String) s = '"' + s + '"';
+    else if (constPool[poolIndex] instanceof FunctionSymbol) {
+      const fs = constPool[poolIndex];
+      s = fs.name + "()@" + fs.address;
+    }
+    buf.concat(":");
+    buf.concat(s);
+    return buf; //.toString();
   }
 }

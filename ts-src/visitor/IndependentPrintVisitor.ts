@@ -1,75 +1,109 @@
-export public class IndependentPrintVisitor {
+import { VecMathNode } from "./VecMathNode";
+import { Token } from "./Token";
+import { VectorNode } from "./VectorNode";
+import { VarNode } from "./VarNode";
+import { IntNode } from "./IntNode";
+import { MultNode } from "./MultNode";
+import { DotProductNode } from "./DotProductNode";
+import { PrintNode } from "./PrintNode";
+import { AddNode } from "./AddNode";
+import { AssignNode } from "./AssignNode";
+import { StatListNode } from "./StatListNode";
+
+class UnsupportedOperationException {
+  constructor(msg: string) {}
+}
+export class IndependentPrintVisitor {
   // visitor dispatch according to node token type
-  public void print(n: VecMathNode) {
-      switch ( n.token.type ) {
-          case Token.ID :        print((VarNode)n); break;
-          case Token.ASSIGN :    print((AssignNode)n); break;
-          case Token.PRINT :     print((PrintNode)n); break;
-          case Token.PLUS :      print((AddNode)n); break;
-          case Token.MULT :      print((MultNode)n); break;
-          case Token.DOT :       print((DotProductNode)n); break;
-          case Token.INT :       print((IntNode)n); break;
-          case Token.VEC :       print((VectorNode)n); break;
-          case Token.STAT_LIST : print((StatListNode)n); break;
-          default :
-              // catch unhandled node types
-              throw new UnsupportedOperationException("Node "+
-                        n.getClass().getName()+ " not handled");
+  print(n: VecMathNode) {
+    switch (n.token.type) {
+      case Token.ID:
+        this.printVarNode(n);
+        break;
+      case Token.ASSIGN:
+        this.printAssignNode(n as AssignNode);
+        break;
+      case Token.PRINT:
+        this.printPrintNode(n as PrintNode);
+        break;
+      case Token.PLUS:
+        this.printAddNode(n as AddNode);
+        break;
+      case Token.MULT:
+        this.printMultNode(n as MultNode);
+        break;
+      case Token.DOT:
+        this.printDotProductNode(n as DotProductNode);
+        break;
+      case Token.INT:
+        this.printIntNode(n as IntNode);
+        break;
+      case Token.VEC:
+        this.printVectorNode(n as VectorNode);
+        break;
+      case Token.STAT_LIST:
+        this.printStatListNode(n as StatListNode);
+        break;
+      default:
+        // catch unhandled node types
+        throw new UnsupportedOperationException(
+          "Node " + n.constructor.name + " not handled"
+        );
+    }
+  }
+
+  printStatListNode(n: StatListNode) {
+    for (let p of n.elements) this.print(p);
+  }
+
+  printAssignNode(n: AssignNode) {
+    this.print(n.id); // walk left child
+    console.log("="); // print operator
+    this.print(n.value); // walk right child
+    console.log("\n"); // print newline
+  }
+
+  printPrintNode(n: PrintNode) {
+    console.log("print ");
+    this.print(n.value);
+    console.log("\n");
+  }
+
+  printAddNode(n: AddNode) {
+    this.print(n.left); // walk left child
+    console.log("+"); // print operator
+    this.print(n.right); // walk right child
+  }
+
+  printDotProductNode(n: DotProductNode) {
+    this.print(n.left);
+    console.log(".");
+    this.print(n.right);
+  }
+
+  printMultNode(n: MultNode) {
+    this.print(n.left);
+    console.log("*");
+    this.print(n.right);
+  }
+
+  printIntNode(n: IntNode) {
+    console.log(n.toString());
+  }
+
+  printVarNode(n: VarNode) {
+    console.log(n.toString());
+  }
+
+  printVectorNode(n: VectorNode) {
+    console.log("[");
+    if (n.elements != null) {
+      for (let i = 0; i < n.elements.length; i++) {
+        const child = n.elements[i];
+        if (i > 0) console.log(", ");
+        this.print(child);
       }
-  }
-
-  public void print(StatListNode n) {
-      for (StatNode p : n.elements) print(p);
-  }
-
-  public void print(AssignNode n) {
-      print(n.id);           // walk left child
-      System.out.print("="); // print operator
-      print(n.value);        // walk right child
-      System.out.println();  // print newline
-  }
-
-  public void print(PrintNode n) {
-      System.out.print("print ");
-      print(n.value);
-      System.out.println(); 
-  }
-
-  public void print(AddNode n) {
-      print(n.left);         // walk left child
-      System.out.print("+"); // print operator
-      print(n.right);        // walk right child
-  }
-
-  public void print(DotProductNode n) {
-      print(n.left);
-      System.out.print(".");
-      print(n.right);
-  }
-
-  public void print(MultNode n) {
-      print(n.left);
-      System.out.print("*");
-      print(n.right);
-  }
-
-  public void print(IntNode n) {
-      System.out.print(n.toString());
-  }
-
-  public void print(VarNode n) {
-      System.out.print(n.toString());
-  }
-
-  public void print(VectorNode n) {
-      System.out.print("[");
-      if ( n.elements!=null ) {
-          for (int i=0; i<n.elements.size(); i++) {
-              ExprNode child = n.elements.get(i);
-              if ( i>0 ) System.out.print(", ");
-              print(child);
-          }
-      }
-      System.out.print("]");
+    }
+    console.log("]");
   }
 }

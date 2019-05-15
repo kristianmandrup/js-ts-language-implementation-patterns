@@ -1,33 +1,39 @@
-public class FunctionSymbol {
-  String name;
-  int nargs; // how many arguments are there?
-  int nlocals; // how many locals are there?
-  int address;
+const hashCode = (val: string) => 1;
 
-  public FunctionSymbol(String name) { this.name = name; }    
+export class FunctionSymbol {
+  name: string;
+  nargs: number; // how many arguments are there?
+  nlocals: number; // how many locals are there?
+  address: number;
 
-  public FunctionSymbol(String name, int nargs, int nlocals, int address) {
-      this.name = name;
-      this.nargs = nargs;
-      this.nlocals = nlocals;
-      this.address = address;
+  constructor(name: string, nargs: number, nlocals: number, address: number) {
+    this.name = name;
+    this.nargs = nargs;
+    this.nlocals = nlocals;
+    this.address = address;
   }
 
-  @Override
-  public int hashCode() { return name.hashCode(); }
-
-  @Override
-  public boolean equals(Object o) {
-      return o instanceof FunctionSymbol && name.equals(((FunctionSymbol)o).name);
+  hashCode(): number {
+    return hashCode(this.name);
   }
 
-  @Override
-  public String toString() {
-      return "FunctionSymbol{" +
-             "name='" + name + '\'' +
-             ", args=" + nargs +
-             ", locals=" + nlocals +
-             ", address=" + address +
-             '}';
+  public equals(o: any): boolean {
+    return o instanceof FunctionSymbol && this.name === o.name;
+  }
+
+  public toString(): string {
+    return (
+      "FunctionSymbol{" +
+      "name='" +
+      this.name +
+      "'" +
+      ", args=" +
+      this.nargs +
+      ", locals=" +
+      this.nlocals +
+      ", address=" +
+      this.address +
+      "}"
+    );
   }
 }

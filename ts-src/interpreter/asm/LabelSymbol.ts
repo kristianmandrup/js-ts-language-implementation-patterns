@@ -1,64 +1,55 @@
-public class LabelSymbol {
-  String name;
+export class LabelSymbol {
+  name: string;
 
   /** Address in code memory */
-  int address;
+  address: number;
 
   /** Is this ref'd before def'd. */
-  boolean isForwardRef = false;
+  isForwardRef = false;
 
   /** Set when we see actual ID: definition */
-  boolean isDefined = true;
+  isDefined = true;
 
   /** List of operands in memory we need to update after seeing def */
-  Vector<Integer> forwardReferences = null;
+  forwardReferences: any[] = [];
 
-  public LabelSymbol(String name) {
+  constructor(name: string, address: number, forward: boolean) {
     this.name = name;
-  }
-
-  public LabelSymbol(String name, int address) {
-      this(name);
+    this.address = address;
+    this.isForwardRef = forward;
+    if (forward) {
+      // if forward reference, then address is address to update
+      this.addForwardReference(address);
+    } else {
       this.address = address;
+    }
   }
 
-  public LabelSymbol(String name, int address, boolean forward) {
-      this(name);
-      isForwardRef = forward;
-      if ( forward ) {
-          // if forward reference, then address is address to update
-          addForwardReference(address);
-      }
-      else {
-          this.address = address;
-      }
+  addForwardReference(address: number) {
+    if (this.forwardReferences == null) {
+      this.forwardReferences = [];
+    }
+    this.forwardReferences.push(address);
   }
 
-  public void addForwardReference(int address) {
-      if ( forwardReferences==null ) {
-          forwardReferences = new Vector<Integer>();
-      }
-      forwardReferences.addElement(new Integer(address));
-  }
-
-  public void resolveForwardReferences(byte[] code) {
-      isForwardRef = false;
-      // need to patch up all references to this symbol
-      Vector<Integer> opndsToPatch = forwardReferences;
-      for (int addrToPatch : opndsToPatch) {
-          /*
+  resolveForwardReferences(code: number[]) {
+    this.isForwardRef = false;
+    // need to patch up all references to this symbol
+    const opndsToPatch = this.forwardReferences;
+    for (let addrToPatch of opndsToPatch) {
+      /*
       System.out.println("updating operand at addr "+
                   addr+" to be "+getAddress());
       */
-          BytecodeAssembler.writeInt(code, addrToPatch, address);
-      }
+      // BytecodeAssembler.writeInt(code, addrToPatch, address);
+    }
   }
 
-  public String toString() {
-      String refs = "";
-      if ( forwardReferences!=null ) {
-          refs = "[refs="+forwardReferences.toString()+"]";
-      }
-      return name+"@"+address+refs;
+  public toString(): string {
+    let refs = "";
+    if (this.forwardReferences != null) {
+      refs = "[refs=" + this.forwardReferences.toString() + "]";
+    }
+    return this.name + "@" + this.address + refs;
   }
 }

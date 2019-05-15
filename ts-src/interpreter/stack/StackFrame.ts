@@ -1,3 +1,5 @@
+import { FunctionSymbol } from "../tree/FunctionSymbol";
+
 export class StackFrame {
   sym: FunctionSymbol; // associated with which function?
   returnAddress: number; // the instruction following the call

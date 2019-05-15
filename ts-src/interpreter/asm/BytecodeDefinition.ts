@@ -1,5 +1,11 @@
-import { AssemblerParser } from "./AssemblerParser";
+// import { AssemblerParser } from "./AssemblerParser";
 import { Instruction } from "./Instruction";
+
+class AssemblerParser {
+  static REG = 1;
+  static FUNC = 2;
+  static INT = 3;
+}
 
 const REG = AssemblerParser.REG;
 
