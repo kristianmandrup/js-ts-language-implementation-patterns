@@ -1,1 +1,3 @@
-export class ANTLRInputStream {}
+export class InputStream {
+  constructor(input: string) {}
+}

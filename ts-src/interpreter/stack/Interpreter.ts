@@ -4,6 +4,7 @@ import { DisAssembler } from '../asm/DisAssembler'
 import { BytecodeAssembler } from '../asm/BytecodeAssembler'
 import { BytecodeDefinition } from '../asm/BytecodeDefinition'
 import { AssemblerLexer } from '../asm/AssemblerLexer'
+import { readFile } from '../../trans/_base/util';
 
 const DEFAULT_OPERAND_STACK_SIZE = 100;
 const DEFAULT_CALL_STACK_SIZE = 1000;
@@ -51,7 +52,7 @@ export class Interpreter {
 
       let input = null;
       if ( filename!=null ) {
-        input = new FileInputStream(filename);
+        input = readFile(filename);
       }
       else {
         input = System.in
@@ -69,7 +70,7 @@ export class Interpreter {
       let hasErrors = false;
       try {
           const assemblerLexer =
-              new AssemblerLexer(new ANTLRInputStream(input));
+              new AssemblerLexer(new InputStream(input));
               const tokens = new CommonTokenStream(assemblerLexer);
               const assembler =
               new BytecodeAssembler(tokens, BytecodeDefinition.instructions);

@@ -59,6 +59,13 @@ The example DSL, is partioned into:
 - [data-lang](https://github.com/kristianmandrup/app-ml-proj/tree/master/packages/data-lang) language to specify domain model (data structures, relationships and constraints)
 - [app-ml-lang](https://github.com/kristianmandrup/app-ml-proj/tree/master/packages/app-ml-lang) full language composed from process, workflow and data language models
 
+### VS code language extension
+
+Preliminary work has also been done to document (and partially create) a VS Code language extension and some basic LSP infrastructure (which can be used with other Editors/IDEs)
+
+- [extension](https://github.com/kristianmandrup/app-ml-proj/tree/master/packages/extension) VS Code extension
+- [lsp](https://github.com/kristianmandrup/app-ml-proj/tree/master/packages/lsp) Language Server Protocol implementation (WIP)
+
 ## Source code
 
 The source code in this repo consists of some Javascript from [@Lucifier129](https://github.com/Lucifier129/language-implementation-patterns). This has additionally been ported to TypeScript.
