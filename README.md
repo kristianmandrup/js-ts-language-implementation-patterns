@@ -119,6 +119,16 @@ TODO
 
 Note that the following sections mostly fall into Part III of the book.
 
+### antlr/runtime
+
+Some ANTLR 4.7.x runtime infrastructure that can be used for reference (WIP).
+
+These classes and interfaces have been ported directly from [antlr-kotlin](https://github.com/Strumenta/antlr-kotlin)
+
+Please help port more of this infrastructure to TypeScript.
+
+Perhaps even write a transformer/translator that can (mostly) translate Kotlin code to syntactically valid TypeScript code to ease this process.
+
 ### scope
 
 Rough draft code, extracted from [@ashmoran/language_implementation_patterns](https://github.com/ashmoran/language_implementation_patterns) (ruby)
