@@ -10,7 +10,7 @@ import { Token } from "./Token";
 
 export class CymbolAST extends CommonTree {
   public scope?: Scope; // set by Def.g; ID lives in which scope?
-  public symbol?: CodeSymbol; // set by Types.g; point at def in symbol table
+  public symbol?: CodeSymbol | null; // set by Types.g; point at def in symbol table
 
   /** We often know the type of an expression; set by Types.g. */
   public evalType?: Type;
@@ -18,7 +18,7 @@ export class CymbolAST extends CommonTree {
   /** During analysis we sometimes find that known types like int must
    *  be promoted to float etc...  Set by Types.g.
    */
-  public promoteToType?: Type;
+  public promoteToType?: Type | null;
 
   constructor(t: Token) {
     super(t);

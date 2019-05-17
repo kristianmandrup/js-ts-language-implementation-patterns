@@ -38,4 +38,8 @@ export class TokenStream {
     }
     return new Token(type, text);
   }
+
+  toString(from: string, to: string): string {
+    return this.charStream.input; // .substr(from, to);
+  }
 }
