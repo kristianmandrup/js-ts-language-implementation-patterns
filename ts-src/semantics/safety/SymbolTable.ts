@@ -6,7 +6,7 @@ import { Type } from "./Type";
 import { CymbolAST } from "./CymbolAST";
 import { VariableSymbol } from "./VariableSymbol";
 import { ArrayType } from "./ArrayType";
-import { MethodSymbol } from ".//MethodSymbol";
+import { MethodSymbol } from "./MethodSymbol";
 import { StructSymbol } from "./StructSymbol";
 
 const tUSER = 0; // user-defined type (struct)
@@ -118,7 +118,7 @@ export class SymbolTable {
 
   /** arithmetic types defined in order from narrowest to widest */
 
-  public static indexToType = indexToType;
+  static indexToType = indexToType;
   static arithmeticResultType = arithmeticResultType;
   static relationalResultType = relationalResultType;
   static equalityResultType = equalityResultType;

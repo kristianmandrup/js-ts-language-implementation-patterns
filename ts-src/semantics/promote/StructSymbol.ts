@@ -1,6 +1,6 @@
 import { Type } from "./Type";
 import { ISymbolMap } from "./ISymbolMap";
-import { SymbolTable } from "./SymbolTable";
+import { SymbolTable } from "./_SymbolTable";
 import { ScopedSymbol } from "./ScopedSymbol";
 import { CodeSymbol } from "./CodeSymbol";
 import { Scope } from "./Scope";

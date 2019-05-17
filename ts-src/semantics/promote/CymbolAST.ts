@@ -18,10 +18,24 @@ export class CymbolAST extends CommonTree {
   /** During analysis we sometimes find that known types like int must
    *  be promoted to float etc...  Set by Types.g.
    */
-  public promoteToType?: Type;
+  public promoteToType?: Type | null;
 
   constructor(t: Token) {
     super(t);
+  }
+
+  resolveScope(name: string) {
+    if (!this.scope) {
+      throw "resolveScope: missing scope";
+    }
+    return this.scope.resolve(name);
+  }
+
+  getTypeIndex(): number {
+    if (!this.evalType) {
+      throw "missing evalType";
+    }
+    return this.evalType.getTypeIndex();
   }
 
   public toString(): string {
